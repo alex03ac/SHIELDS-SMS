@@ -24,8 +24,8 @@ base_dir = os.path.join(os.path.dirname(__file__), '..', '..')
 sys.path.append(os.path.join(base_dir, 'src', 'data'))
 sys.path.append(os.path.join(base_dir, 'src', 'features'))
 
-from data_pipeline import load_data, preprocess_text, get_train_test_data
-from feature_extractor import create_features
+from data_pipeline import cargar_datos, preprocesar_texto, obtener_datos_prueba_entrenamiento
+from feature_extractor import crear_caracteristicas
 
 
 def entrenar_y_evaluar_modelo(X_entrenamiento, X_prueba, y_entrenamiento, y_prueba, nombre_modelo: str):
@@ -62,19 +62,19 @@ def run_model_training(processed_df: pd.DataFrame):
     """Ejecuta el pipeline completo de entrenamiento y selección de modelo."""
 
     # 1. Obtener los conjuntos de entrenamiento y prueba
-    X_train_text, X_test_text, y_train, y_test = get_train_test_data(processed_df, test_size=0.4)
+    X_train_text, X_test_text, y_train, y_test = obtener_datos_prueba_entrenamiento(processed_df, test_size=0.4)
 
     # 2. Crear las características a partir del texto (Llama a feature_extractor.py)
-    X_train, X_test, _ = create_features(X_train_text, X_test_text, processed_df)
+    X_train, X_test, _ = crear_caracteristicas(X_train_text, X_test_text, processed_df)
 
     # 3. Entrenar y evaluar modelos
     models = {}
 
     # Comparar SVM y Random Forest
-    svm_model, svm_acc = train_and_evaluate_model(X_train, X_test, y_train, y_test, 'SVM')
+    svm_model, svm_acc = entrenar_y_evaluar_modelo(X_train, X_test, y_train, y_test, 'SVM')
     models['SVM'] = {'model': svm_model, 'accuracy': svm_acc}
 
-    rf_model, rf_acc = train_and_evaluate_model(X_train, X_test, y_train, y_test, 'RandomForest')
+    rf_model, rf_acc = entrenar_y_evaluar_modelo(X_train, X_test, y_train, y_test, 'RandomForest')
     models['RandomForest'] = {'model': rf_model, 'accuracy': rf_acc}
 
     # 4. Selección del mejor modelo
@@ -99,9 +99,9 @@ if __name__ == '__main__':
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, '..', '..', 'data', 'raw', 'sms_dataset_original.csv')
 
-    sms_df = load_data(data_path)
+    sms_df = cargar_datos(data_path)
     if sms_df is not None:
-        processed_df = preprocess_text(sms_df)
+        processed_df = preprocesar_texto(sms_df)
 
         # Ejecutar el entrenamiento y selección
         run_model_training(processed_df)

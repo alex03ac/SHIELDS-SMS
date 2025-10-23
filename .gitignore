@@ -1,0 +1,6 @@
+# residuos del IDE
+.idea/
+# cache de python
+__pycache__/
+*.py[cod]
+*$py.class
