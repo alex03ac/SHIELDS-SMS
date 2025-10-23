@@ -110,7 +110,6 @@ def crear_caracteristicas(X_train_text: pd.Series, X_test_text: pd.Series, df_or
     return X_train_final, X_test_final, tfidf
 
 
-# Script de ejecución principal para probar
 if __name__ == '__main__':
     # 1. Obtener datos del pipeline anterior
     directorio_actual = os.path.dirname(os.path.abspath(__file__))
