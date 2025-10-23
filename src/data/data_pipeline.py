@@ -229,21 +229,22 @@ def obtener_datos_prueba_entrenamiento(df: pd.DataFrame, test_size: float = 0.4,
 
 # --- BLOQUE DE EJECUCIÓN PRINCIPAL ---
 # Este bloque es lo que realmente se ejecuta cuando corres el script
-# desde la terminal (ej. `python este_archivo.py`).
+# desde la terminal
 # Orquesta la ejecución de todas las funciones anteriores en orden.
 
 if __name__ == '__main__':
+    
     # Esta línea especial significa: "ejecuta el siguiente código solo si
     # este archivo es el script principal (y no si está siendo importado)".
 
     # --- Construcción de la ruta al archivo ---
-    # Obtiene la ruta de la carpeta donde se encuentra ESTE archivo .py.
+    # Obtiene la ruta de la carpeta donde se encuentra este archivo .py.
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # Construye la ruta al archivo CSV.
     # 'os.path.join' une las partes de la ruta de forma inteligente (con / o \).
     # '..' significa "subir un nivel de carpeta".
-    # Asume que la estructura es: SHIELDSMS-lipa_edition/src/features/este_archivo.py
-    # Sube 2 niveles (a 'SHIELDSMS-lipa_edition') y luego baja a 'data/raw/...'
+    # Asume que la estructura es: SHIELD-SMS/src/data/data_pipeline.py
+    # Sube 2 niveles y luego baja a 'data/raw/...'
     data_path = os.path.join(current_dir, '..', '..', 'data', 'raw', 'sms_dataset_original.csv')
 
     # --- Flujo de ejecución ---
