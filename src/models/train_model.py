@@ -1,3 +1,16 @@
+"""
+Este script implementa el entrenamiento, evaluación y selección de modelos de aprendizaje automático
+para el sistema de detección de smishing SHIELDS-SMS.
+
+Importaciones:
+- pandas as pd: Para manejo y análisis de datos en estructuras tipo DataFrame.
+- SVC (de sklearn.svm): Implementa el modelo de clasificación Support Vector Machine.
+- RandomForestClassifier (de sklearn.ensemble): Implementa el modelo de clasificación basado en bosques aleatorios.
+- classification_report, accuracy_score (de sklearn.metrics): Para generar métricas de evaluación y medir la precisión.
+- pickle: Para guardar y cargar modelos entrenados en archivos binarios.
+- os, sys: Para manipular rutas de archivos y añadir directorios al PATH para importar módulos personalizados.
+"""
+
 import pandas as pd
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
@@ -20,10 +33,10 @@ def entrenar_y_evaluar_modelo(X_entrenamiento, X_prueba, y_entrenamiento, y_prue
     print(f"\n--- Entrenando y evaluando {nombre_modelo} ---")
 
     if nombre_modelo == 'SVM':
-        # Modelo Support Vector Machine (RF-04)
+        # Modelo Support Vector Machine
         modelo = SVC(kernel='linear', random_state=42)
     elif nombre_modelo == 'RandomForest':
-        # Modelo Random Forest (RF-04)
+        # Modelo Random Forest
         modelo = RandomForestClassifier(n_estimators=100, random_state=42)
     else:
         raise ValueError(f"Modelo {nombre_modelo} no soportado.")
@@ -34,7 +47,7 @@ def entrenar_y_evaluar_modelo(X_entrenamiento, X_prueba, y_entrenamiento, y_prue
     # 2. Predicción en el conjunto de prueba
     y_predicho = modelo.predict(X_prueba)
 
-    # 3. Evaluación (RNF-01)
+    # 3. Evaluación
     precision = accuracy_score(y_prueba, y_predicho)
     reporte = classification_report(y_prueba, y_predicho, zero_division=0)
 
@@ -57,14 +70,14 @@ def run_model_training(processed_df: pd.DataFrame):
     # 3. Entrenar y evaluar modelos
     models = {}
 
-    # Comparar SVM y Random Forest (RF-04)
+    # Comparar SVM y Random Forest
     svm_model, svm_acc = train_and_evaluate_model(X_train, X_test, y_train, y_test, 'SVM')
     models['SVM'] = {'model': svm_model, 'accuracy': svm_acc}
 
     rf_model, rf_acc = train_and_evaluate_model(X_train, X_test, y_train, y_test, 'RandomForest')
     models['RandomForest'] = {'model': rf_model, 'accuracy': rf_acc}
 
-    # 4. Selección del mejor modelo (RNF-01)
+    # 4. Selección del mejor modelo
     best_model_name = max(models, key=lambda name: models[name]['accuracy'])
     best_model_data = models[best_model_name]
 
@@ -81,7 +94,6 @@ def run_model_training(processed_df: pd.DataFrame):
     print(f"El modelo final '{best_model_name}' ha sido guardado en {best_model_path}")
 
 
-# Script de ejecución principal para probar
 if __name__ == '__main__':
     # 1. Cargar y Preprocesar los datos
     current_dir = os.path.dirname(os.path.abspath(__file__))
