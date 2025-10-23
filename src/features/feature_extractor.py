@@ -22,7 +22,7 @@ import sys
 # Añadir el directorio src al PATH para importar data_pipeline.py
 # Esto permite que este script acceda a las funciones de carga y preprocesamiento
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'data'))
-from data_pipeline import load_data, preprocess_text, get_train_test_data
+from data_pipeline import cargar_datos, preprocesar_texto, obtener_datos_prueba_entrenamiento
 
 
 # 1. Funciones de Extracción de Características de Ingeniería Social
@@ -115,10 +115,10 @@ if __name__ == '__main__':
     directorio_actual = os.path.dirname(os.path.abspath(__file__))
     ruta_datos = os.path.join(directorio_actual, '..', '..', 'data', 'raw', 'sms_dataset_original.csv')
 
-    sms_df = load_data(ruta_datos)
-    processed_df = preprocess_text(sms_df)
+    sms_df = cargar_datos(ruta_datos)
+    processed_df = preprocesar_texto(sms_df)
 
-    X_train_text, X_test_text, y_train, y_test = get_train_test_data(processed_df, test_size=0.4)
+    X_train_text, X_test_text, y_train, y_test = obtener_datos_prueba_entrenamiento(processed_df, test_size=0.4)
 
     # 2. Crear las características
     X_train_feat, X_test_feat, tfidf_model = crear_caracteristicas(
