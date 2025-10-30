@@ -16,7 +16,7 @@ sys.path.append(os.path.join(base_dir, 'src', 'data'))
 from data_pipeline import limpiar_texto
 
 # Definición de rutas para los archivos persistentes del modelo
-MODEL_PATH = os.path.join(base_dir, 'models', 'final_best_model.pkl')
+MODEL_PATH = os.path.join(base_dir, 'models', 'svm_model.pkl')
 VECTORIZER_PATH = os.path.join(base_dir, 'models', 'vectorizer.pkl')
 
 # Inicialización de la aplicación FastAPI
